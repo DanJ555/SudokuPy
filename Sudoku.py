@@ -300,3 +300,8 @@ def clearGrid():
     for i in [boxes,rows,columns]:
         for j in range(9):
             i.append([])
+
+#currently cannot solve diabolic / very hard
+#either impossible without guessing or requires logic i dont know
+solve(SudokuBook[-1])
+#printSdk()
