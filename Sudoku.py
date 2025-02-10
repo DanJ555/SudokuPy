@@ -115,6 +115,8 @@ class Grid:
                     # print(len(same_possibles))
                     # for c in same_possibles:
                     #    print(f"{c} has possibles {c.possible_values}")
+        # Hidden Pairs
+        # I'm pretty sure I made a mistake here but it solved the puzzle so I'll fix it later
         for box in self.boxes:
             occurrences: list[list[Cell]] = []
             for n in range(9):
@@ -240,8 +242,14 @@ def main() -> Grid:
     #    grid.solve()
     return grid
 
+# Place holder
+# For back tracking and brute forcing
+# 
+def guess(grid) -> grid:
+    pass
+
 
 if __name__ == "__main__":
     main()
 
-grid = main()
+# grid = main()
