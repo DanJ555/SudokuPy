@@ -4,6 +4,7 @@ from copy import deepcopy
 class Sudoku:
 
     def __init__(self, grid=None) -> None:
+        """Initialize the Sudoku object"""
         if grid is None:
             grid = [[0 for _ in range(9)] for _ in range(9)]
         self._grid: list[list[int]] = deepcopy(grid)
@@ -15,6 +16,7 @@ class Sudoku:
             raise ValueError("Invalid Sudoku puzzle: Duplicate numbers detected")
 
     def _initialize_bitmasks(self) -> bool:
+        """Initialize the bitmasks used to solve Sudoku puzzles"""
         for y in range(9):
             for x in range(9):
                 if self._grid != 0:
@@ -31,15 +33,19 @@ class Sudoku:
         return True
 
     def set_grid(self, puzzle) -> None:
+        """Sets the values of the grid to that of a given puzzle."""
         self.__init__(puzzle)
 
     def get_grid(self) -> list[list[int]]:
+        """Returns the nested list of integers that comprise the Sudoku puzzle."""
         return self._grid
 
     def reset(self) -> None:
+        """Resets Sudoku object"""
         self.__init__()
 
     def _is_spot_valid(self, x: int, y: int, value: int) -> bool:
+        """Checks if a given number is allowed in the position given by the coordinates."""
         if value == 0:
             return True
 
@@ -51,6 +57,7 @@ class Sudoku:
         return not (row_is_invalid or col_is_invalid or box_is_invalid)
 
     def solve(self, x=0, y=0) -> bool:
+        """Finds a solution to the Sudoku puzzle. Returns True when solved."""
         if y == 9:
             return True
 
@@ -80,6 +87,7 @@ class Sudoku:
         return False
 
     def print(self) -> None:
+        """Displays Sudoku grid in console."""
         for y in range(9):
             if y % 3 == 0 and y != 0:
                 print("-" * 21)
