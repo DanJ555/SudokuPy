@@ -1,6 +1,6 @@
 class Grid:
 
-    def __init__(self, grid: list[list[int]]) -> None:
+    def __init__(self, grid: list[list[int]] = [[0 for _ in range(9)] for _ in range(9)]) -> None:
         self.grid: list[list[int]] = grid
         self.row: list[int] = [0] * 9
         self.col: list[int] = [0] * 9
@@ -15,6 +15,9 @@ class Grid:
                     self.row[y] |= (1 << value)
                     self.col[x] |= (1 << value)
                     self.box[(y // 3) * 3 + x // 3] |= (1 << value)
+                    
+    def set_grid(self, puzzle) -> None:
+        self.__init__(puzzle)
 
     def is_spot_valid(self, x: int, y: int, value: int)-> bool:
         row_is_invalid: int = self.row[y] & (1 << value)
