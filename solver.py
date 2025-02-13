@@ -1,71 +1,66 @@
-def print_grid(grid) -> None:
-    for row in range(len(grid)):
-        if row % 3 == 0 and row != 0:
-            print("-" * 21)
-        for col in range(len(grid[row])):
-            if col % 3 == 0 and col != 0:
-                print("| ", end="")
-            if col == 8:
-                print(grid[row][col])
-            else:
-                print(f"{grid[row][col]} ", end="")
+class Grid:
 
+    def __init__(self, grid: list[list[int]]) -> None:
+        self.grid: list[list[int]] = grid
+        self.row: list[int] = [0] * 9
+        self.col: list[int] = [0] * 9
+        self.box: list[int] = [0] * 9
+        self._initialize_bitmasks()
 
-def is_spot_valid(x: int, y: int, value: int, row: list[int], col: list[int], box: list[int]) -> bool:
-    row_is_invalid: int = row[y] & (1 << value)
-    col_is_invalid: int = col[x] & (1 << value)
-    box_is_invalid: int = box[y // 3 * 3 + x // 3] & (1 << value)
+    def _initialize_bitmasks(self) -> None:
+        for y in range(9):
+            for x in range(9):
+                if self.grid != 0:
+                    value: int = self.grid[y][x]
+                    self.row[y] |= (1 << value)
+                    self.col[x] |= (1 << value)
+                    self.box[(y // 3) * 3 + x // 3] |= (1 << value)
 
-    if row_is_invalid or col_is_invalid or box_is_invalid:
-        return False
+    def is_spot_valid(self, x: int, y: int, value: int)-> bool:
+        row_is_invalid: int = self.row[y] & (1 << value)
+        col_is_invalid: int = self.col[x] & (1 << value)
+        box_is_invalid: int = self.box[y // 3 * 3 + x // 3] & (1 << value)
 
-    return True
+        return not (row_is_invalid or col_is_invalid or box_is_invalid)
 
+    def solve(self, x=0, y=0) -> bool:
+        if y == 9:
+            return True
 
-def solve_grid(grid, x, y, row, col, box) -> bool:
-    start_next_row = 9
+        if x == 9:
+            return self.solve(0, y + 1)
 
-    if y == start_next_row - 1 and x == start_next_row:
-        return True
+        if self.grid[y][x] != 0:
+            return self.solve(x + 1, y)
 
-    if x == start_next_row:
-        y += 1
-        x = 0
+        for value in range(1, 10):
+            if self.is_spot_valid(x, y, value):
+                self.grid[y][x] = value
+                self.row[y] |= (1 << value)
+                self.col[x] |= (1 << value)
+                self.box[(y // 3) * 3 + x // 3] |= (1 << value)
 
-    if grid[y][x] != 0:
-        return solve_grid(grid, x+1, y, row, col, box)
+                if self.solve(x + 1, y):
+                    return True
 
-    for value in range(1, 10):
-        if is_spot_valid(x, y, value, row, col, box):
-            grid[y][x] = value
-            row[y] |= (1 << value)
-            col[x] |= (1 << value)
-            box[(y // 3) * 3 + x // 3] |= (1 << value)
+                # Backtracking
+                self.grid[y][x] = 0
+                self.row[y] &= ~(1 << value)
+                self.col[x] &= ~(1 << value)
+                self.box[(y // 3) * 3 + x // 3] &= ~(1 << value)
 
-            if solve_grid(grid, x, y, row, col, box):
-                return True
-
-            grid[y][x] = 0
-            row[y] &= ~(1 << value)
-            col[x] &= ~(1 << value)
-            box[(y // 3) * 3 + x // 3] &= ~(1 << value)
-
-    return False
-
-
-def init_bits(grid: list[list[int]]) -> (list[int]):
-    row: list[int] = [0] * 9
-    col: list[int] = [0] * 9
-    box: list[int] = [0] * 9
-
-    for y in range(9):
-        for x in range(9):
-            if grid[y][x] != 0:
-                row[y] |= (1 << grid[y][x])
-                col[x] |= (1 << grid[y][x])
-                box[(y // 3) * 3 + x // 3] |= (1 << grid[y][x])
-
-    return row, col, box
+    def print(self) -> None:
+        for y in range(9):
+            if y % 3 == 0 and y != 0:
+                print("-" * 21)
+            for x in range(9):
+                if x % 3 == 0 and x != 0:
+                    print("| ", end="")
+                if x == 8:
+                    print(self.grid[y][x])
+                else:
+                    print(f"{self.grid[y][x]} ", end="")
+        print()
 
 
 def main() -> None:
@@ -80,12 +75,11 @@ def main() -> None:
         [0, 0, 6, 0, 0, 5, 0, 2, 0],
         [0, 0, 0, 8, 3, 0, 0, 0, 0]
     ]
-    row, col, box = init_bits(puzzle)
-    print_grid(puzzle)
-    print()
-    solve_grid(puzzle, 0, 0, row, col, box)
-    print_grid(puzzle)
 
+    grid = Grid(puzzle)
+    grid.print()
+    grid.solve()
+    grid.print()
 
 if __name__ == "__main__":
     main()
