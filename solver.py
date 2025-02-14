@@ -1,6 +1,11 @@
 from copy import deepcopy
 
 
+class SudokuError(Exception):
+    """Invalid Sudoku puzzle with repeated numbers."""
+    pass
+
+
 class Sudoku:
 
     def __init__(self, grid=None) -> None:
@@ -12,8 +17,7 @@ class Sudoku:
         self._col: list[int] = [0] * 9
         self._box: list[int] = [0] * 9
         if not self._initialize_bitmasks():
-            self.print()
-            raise ValueError("Invalid Sudoku puzzle: Duplicate numbers detected")
+            raise SudokuError("Invalid Sudoku puzzle: Duplicate numbers detected.")
 
     def _initialize_bitmasks(self) -> bool:
         """Initialize the bitmasks used to solve Sudoku puzzles"""
