@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import Tk, Menu, Label, Frame, Button, Entry, END
 from solver import *
 
 
@@ -90,8 +90,6 @@ class SudokuApp:
             self.error_label.config(text="Invalid character(s): Only numbers may be in the Sudoku grid.")
         except SudokuError as e:
             self.error_label.config(text=e)
-        finally:
-            print(self.puzzle)
 
     def unsolve_puzzle(self) -> None:
         self.solve_button.config(text="Solve", command=self.solve_puzzle)
