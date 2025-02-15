@@ -98,7 +98,7 @@ class Sudoku:
             for x in range(9):
                 value = self._grid[y][x]
                 if value == 0:
-                    value = " "
+                    value = "."
                 if x % 3 == 0 and x != 0:
                     print("| ", end="")
                 if x == 8:
