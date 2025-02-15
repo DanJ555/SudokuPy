@@ -23,7 +23,7 @@ class Sudoku:
         """Initialize the bitmasks used to solve Sudoku puzzles"""
         for y in range(9):
             for x in range(9):
-                if self._grid != 0:
+                if self._grid[y][x] != 0:
                     value: int = self._grid[y][x]
                     bit = 1 << value
 
