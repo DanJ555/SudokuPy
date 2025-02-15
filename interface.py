@@ -43,13 +43,21 @@ class SudokuApp:
         Label(self.root, text="Enter numbers into grid:").grid()
 
         # Sudoku 9x9 grid
-        grid_frame = Frame(self.root)
+        grid_frame = Frame(self.root, padx=5, pady=5)
         grid_frame.grid()
+
+        box_frames: list[list[Frame]] = [[None] * 3 for _ in range(3)]
+        for y in range(3):
+            for x in range(3):
+                box_frames[y][x] = Frame(grid_frame, bd=1, highlightbackground="black", highlightcolor="black", highlightthickness=1)
+                box_frames[y][x].grid(row=y, column=x)
 
         for y in range(9):
             for x in range(9):
-                cell: Entry = Entry(grid_frame, width=3, justify="center")
-                cell.grid(row=y, column=x)
+                cell_frame = Frame(box_frames[y // 3][x // 3], highlightbackground="white",  highlightcolor="white", highlightthickness=1)
+                cell_frame.grid(row=(y % 3), column=(x % 3))
+                cell = Entry(cell_frame, width=3, justify="center")
+                cell.grid()
                 self.inputs[y][x] = cell
 
         # Solve and Reset buttons
@@ -63,7 +71,8 @@ class SudokuApp:
         self.reset_button.grid(row=0, column=1)
 
         # Error Label
-        self.error_label = Label(self.root, text="Invalid character(s): Only numbers may be in the Sudoku grid.", fg="red", wraplength=260)
+        self.error_label = Label(self.root, text="Invalid character(s): Only numbers may be in the Sudoku grid.",
+                                 fg="red", wraplength=260, pady=5)
         self.error_label.grid()
 
     def solve_puzzle(self) -> None:
