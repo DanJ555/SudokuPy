@@ -18,7 +18,7 @@ Ensure you have Python 3.9 or later installed.
 
 1. Clone the repository or download the files.
    ```sh
-   git clone <repository_url>
+   git clone https://github.com/DanJ555/SudokuPy
    cd PySudoku
    ```
 2. No additional dependencies are required as Tkinter comes bundled with Python.
