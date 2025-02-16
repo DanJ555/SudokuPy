@@ -41,7 +41,8 @@ To use the command-line Sudoku solver, run:
 python solver.py
 ```
 
-This will solve a predefined puzzle and print the result.
+This will solve a predefined puzzle and print the result. You can instead run python and enter the line `from solver import *` and create a `Sudoku` object and pass as an argument, or later with the `Sudoku.set_grid()` method, a 9 by 9 `list[list[int]]` with `0` representing empty spots.
+
 
 ## File Structure
 
