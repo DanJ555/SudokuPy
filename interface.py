@@ -43,7 +43,7 @@ class SudokuApp:
         Label(self._root, text="Enter numbers into grid:").grid()
 
         # Sudoku 9x9 grid
-        grid_frame = Frame(self._root, padx=5, pady=5)
+        grid_frame = Frame(self._root, padx=20, pady=5)
         grid_frame.grid()
 
         box_frames: list[list[Frame]] = [[None] * 3 for _ in range(3)]
