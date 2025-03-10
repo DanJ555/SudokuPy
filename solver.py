@@ -94,7 +94,7 @@ class Sudoku:
         """Displays Sudoku grid in console."""
         for y in range(9):
             if y % 3 == 0 and y != 0:
-                print("-" * 21)
+                print(f"{'-'*6}+{'-'*7}+{'-'*6}")
             for x in range(9):
                 value = self._grid[y][x]
                 if value == 0:
